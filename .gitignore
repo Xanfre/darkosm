@@ -1,0 +1,11 @@
+csrc/objs
+cppsrc/objs
+*.osm
+
+*.o
+
+*.exp
+*.lib
+*.manifest
+*.obj
+

@@ -1,0 +1,90 @@
+#include "api.hpp"
+#include "module.hpp"
+#include "script.hpp"
+
+#ifdef __GNUC__
+extern "C" { const void *__dyn_tls_init_callback = NULL; }
+#endif
+
+IScriptMan *g_man = NULL;
+fScrPrintFunc g_print = NULL;
+IMalloc *g_alloc = NULL;
+
+sScrClassDesc g_classes[SCR_NUM];
+
+static cScriptModule g_mod("TestOSM");
+
+STDMETHODIMP cScriptModule::QueryInterface(REFIID riid, void **ppv)
+{
+	if (!IsEqualIID(riid, IID_IScriptModule))
+	{
+		if (NULL != ppv)
+			*ppv = 0;
+		return E_NOINTERFACE;
+	}
+	if (NULL != ppv)
+		*ppv = this;
+	AddRef();
+	return NOERROR;
+}
+
+STDMETHODIMP_(unsigned long) cScriptModule::AddRef()
+{
+	return ++count;
+}
+
+STDMETHODIMP_(unsigned long) cScriptModule::Release()
+{
+	if (0 == count)
+		return 0;
+	if (0 == --count)
+	{
+		delete this;
+		return 0;
+	}
+	return count;
+}
+
+STDMETHODIMP_(const char*) cScriptModule::GetName()
+{
+	return modname;
+}
+
+STDMETHODIMP_(const sScrClassDesc*) cScriptModule::GetFirstClass(unsigned int *iter)
+{
+	if (NULL != iter)
+		*iter = 0;
+	return &g_classes[0];
+}
+
+STDMETHODIMP_(const sScrClassDesc*) cScriptModule::GetNextClass(unsigned int *iter)
+{
+	return (NULL == iter && *iter + 1 < SCR_NUM) ? &g_classes[++(*iter)] : NULL;
+}
+
+STDMETHODIMP_(void) cScriptModule::EndClassIter(unsigned int *) { }
+
+extern "C" BOOL __declspec(dllexport) __stdcall
+ScriptModuleInit(const char *name, IScriptMan *man, fScrPrintFunc print,
+	IUnknown *alloc, IScriptModule **mod)
+{
+	if (NULL == name || NULL == man || NULL == print || NULL == alloc
+		|| NULL == mod)
+		return FALSE;
+
+	*mod = NULL;
+
+	alloc->QueryInterface(IID_IMalloc, (void **) &g_alloc);
+	if (NULL == g_alloc)
+		return FALSE;
+
+	g_man = man;
+	g_print = print;
+
+	*mod = &g_mod;
+
+	InitScripts(g_mod.GetName());
+
+	return TRUE;
+}
+
