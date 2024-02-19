@@ -13,12 +13,12 @@ DECLARE_SCRIPT_SERVICE(AI, 0xe5)
 		const int *objIdTarget, eAIScriptSpeed speed DEF_ARG(kAISS_Normal),
 		eAIActionPriority DEF_ARG(kAIAP_Normal),
 		const MultiParm REF dataToSendOnReach DEF_ARG(MultiParm())) PURE;
-	STDMETHOD_(BOOL *, MakeFrobObj)(THIS_ BOOL REF ret, int objIdAI,
-		const int *objIdTarget, eAIActionPriority DEF_ARG(kAIAP_Normal),
-		const MultiParm REF dataToSendOnReach DEF_ARG(MultiParm())) PURE;
 	STDMETHOD_(BOOL *, MakeFrobObjWith)(THIS_ BOOL REF ret, int objIdAI,
 		const int *objIdTarget, const int *objWith,
 		eAIActionPriority DEF_ARG(kAIAP_Normal),
+		const MultiParm REF dataToSendOnReach DEF_ARG(MultiParm())) PURE;
+	STDMETHOD_(BOOL *, MakeFrobObj)(THIS_ BOOL REF ret, int objIdAI,
+		const int *objIdTarget, eAIActionPriority DEF_ARG(kAIAP_Normal),
 		const MultiParm REF dataToSendOnReach DEF_ARG(MultiParm())) PURE;
 	STDMETHOD_(eAIScriptAlertLevel, GetAlertLevel)(THIS_ int objIdAI) PURE;
 	STDMETHOD_(void, SetMinimumAlert)(THIS_ int objIdAI,

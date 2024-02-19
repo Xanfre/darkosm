@@ -45,9 +45,9 @@ DECLARE_SCRIPT_SERVICE(Link, 0xee)
 	STDMETHOD_(long *, GetOne)(THIS_ long REF ret, long kind DEF_ARG(0),
 		int from DEF_ARG(0), int to DEF_ARG(0)) PURE;
 	STDMETHOD(BroadcastOnAllLinks)(THIS_ const int REF SelfObj,
-		const char *Message, long recipients, const MultiParm REF intdata) PURE;
-	STDMETHOD(BroadcastOnAllLinks)(THIS_ const int REF SelfObj,
 		const char *Message, long recipients) PURE;
+	STDMETHOD(BroadcastOnAllLinksData)(THIS_ const int REF SelfObj,
+		const char *Message, long recipients, const MultiParm REF intdata) PURE;
 	STDMETHOD(CreateMany)(THIS_ long kind, const String REF FromSet,
 		const String REF ToSet) PURE;
 	STDMETHOD(DestroyMany)(THIS_ long kind, const String REF FromSet,

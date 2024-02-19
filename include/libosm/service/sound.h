@@ -15,26 +15,26 @@
 DECLARE_SCRIPT_SERVICE(Sound, 0xf1)
 {
 	SERVICE_FUNCS()
-	STDMETHOD_(BOOL *, Play)(THIS_ BOOL REF ret, int CallbackObject,
-		const String REF SoundName, eSoundSpecial Special DEF_ARG(kSS_Normal)
-		SCR_SOUND_NETWORK) PURE;
-	STDMETHOD_(BOOL *, PlayAtObject)(THIS_ BOOL REF ret, int CallbackObject, 
-		const String REF SoundName, int TargetObject,
-		eSoundSpecial Special DEF_ARG(kSS_Normal) SCR_SOUND_NETWORK) PURE;
 	STDMETHOD_(BOOL *, PlayAtLocation)(THIS_ BOOL REF ret, int CallbackObject, 
 		const String REF SoundName, sVector REF Vector,
 		eSoundSpecial Special DEF_ARG(kSS_Normal) SCR_SOUND_NETWORK) PURE;
+	STDMETHOD_(BOOL *, PlayAtObject)(THIS_ BOOL REF ret, int CallbackObject, 
+		const String REF SoundName, int TargetObject,
+		eSoundSpecial Special DEF_ARG(kSS_Normal) SCR_SOUND_NETWORK) PURE;
+	STDMETHOD_(BOOL *, Play)(THIS_ BOOL REF ret, int CallbackObject,
+		const String REF SoundName, eSoundSpecial Special DEF_ARG(kSS_Normal)
+		SCR_SOUND_NETWORK) PURE;
 	STDMETHOD_(BOOL *, PlayAmbient)(THIS_ BOOL REF ret, int CallbackObject,
 		const String REF SoundName, eSoundSpecial Special DEF_ARG(kSS_Normal)
 		SCR_SOUND_NETWORK) PURE;
-	STDMETHOD_(BOOL *, PlaySchema)(THIS_ BOOL REF ret, int CallbackObject, 
-		int Schema SCR_SOUND_NETWORK) PURE;
-	STDMETHOD_(BOOL *, PlaySchemaAtObject)(THIS_ BOOL REF ret,
-		int CallbackObject, int Schema, int SourceObject SCR_SOUND_NETWORK)
-		PURE;
 	STDMETHOD_(BOOL *, PlaySchemaAtLocation)(THIS_ BOOL REF ret,
 		int CallbackObject, int Schema, sVector REF Vector SCR_SOUND_NETWORK)
 		PURE;
+	STDMETHOD_(BOOL *, PlaySchemaAtObject)(THIS_ BOOL REF ret,
+		int CallbackObject, int Schema, int SourceObject SCR_SOUND_NETWORK)
+		PURE;
+	STDMETHOD_(BOOL *, PlaySchema)(THIS_ BOOL REF ret, int CallbackObject,
+		int Schema SCR_SOUND_NETWORK) PURE;
 	STDMETHOD_(BOOL *, PlaySchemaAmbient)(THIS_ BOOL REF ret,
 		int CallbackObject, int Schema SCR_SOUND_NETWORK) PURE;
 	STDMETHOD_(BOOL *, PlayEnvSchema)(THIS_ BOOL REF ret, int CallbackObject,

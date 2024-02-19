@@ -11,9 +11,9 @@ DECLARE_SCRIPT_SERVICE(Property, 0xda)
 	SERVICE_FUNCS()
 	STDMETHOD_(MultiParm *, Get)(MultiParm REF ret, int obj, const char * prop,
 		const char * field DEF_ARG(NULL)) PURE;
-	STDMETHOD(Set)(int obj, const char * prop, const MultiParm REF) PURE;
 	STDMETHOD(Set)(int obj, const char * prop, const char * field,
 		const MultiParm REF) PURE;
+	STDMETHOD(SetSimple)(int obj, const char * prop, const MultiParm REF) PURE;
 #ifndef THIEF1
 	STDMETHOD(SetLocal)(int obj, const char * prop, const char * field,
 		const MultiParm REF) PURE;
