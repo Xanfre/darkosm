@@ -38,9 +38,9 @@ DECLARE_SCRIPT_SERVICE(Object, 0xdf)
 #endif
 #endif
 	STDMETHOD_(int, AddMetaPropertyToMany)(THIS_ int metaprop,
-		const string REF ToSet) PURE;
+		const String REF ToSet) PURE;
 	STDMETHOD_(int, RemoveMetaPropertyFromMany)(THIS_ int metaprop,
-		const string REF ToSet) PURE;
+		const String REF ToSet) PURE;
 	STDMETHOD_(BOOL *, RenderedThisFrame)(THIS_ BOOL REF ret, int scr_obj)
 		PURE;
 

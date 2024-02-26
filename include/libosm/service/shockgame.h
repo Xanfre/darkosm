@@ -14,15 +14,15 @@ DECLARE_SCRIPT_SERVICE(ShockGame, 0x108)
 	STDMETHOD(HideInvObj)(THIS_ const int REF DestroyObj) PURE;
 	STDMETHOD(SetPlayerPsiPoints)(THIS_ int power) PURE;
 	STDMETHOD_(int, GetPlayerPsiPoints)(THIS) PURE;
-	STDMETHOD(AttachCamera)(THIS_ const string REF s) PURE;
-	STDMETHOD(CutSceneModeOn)(THIS_ const string REF sceneName) PURE;
+	STDMETHOD(AttachCamera)(THIS_ const String REF s) PURE;
+	STDMETHOD(CutSceneModeOn)(THIS_ const String REF sceneName) PURE;
 	STDMETHOD(CutSceneModeOff)(THIS) PURE;
 	STDMETHOD_(int, CreatePlayerPuppet)(THIS) PURE;
-	STDMETHOD_(int, CreatePlayerPuppet)(THIS_ const string REF modelName) PURE;
+	STDMETHOD_(int, CreatePlayerPuppet)(THIS_ const String REF modelName) PURE;
 	STDMETHOD(DestroyPlayerPuppet)(THIS) PURE;
 	STDMETHOD(Replicator)(THIS_ const int REF RepObj) PURE;
 	STDMETHOD(Container)(THIS_ const int REF ContainObj) PURE;
-	STDMETHOD(YorN)(THIS_ const int REF BaseObj, const string REF s) PURE;
+	STDMETHOD(YorN)(THIS_ const int REF BaseObj, const String REF s) PURE;
 	STDMETHOD(Keypad)(THIS_ const int REF BaseObj) PURE;
 	STDMETHOD(HRM)(THIS_ int hacktype, const int REF Obj, BOOL frompsi) PURE;
 	STDMETHOD(TechTool)(THIS_ const int REF Obj) PURE;
@@ -115,7 +115,7 @@ DECLARE_SCRIPT_SERVICE(ShockGame, 0x108)
 	STDMETHOD_(int *, OverlayGetObj)(THIS_ int REF ret) PURE;
 	STDMETHOD(VaporizeInv)(THIS) PURE;
 	STDMETHOD(ShutoffPsi)(THIS) PURE;
-	STDMETHOD(SetQBHacked)(THIS_ const string REF qbname, int qbval) PURE;
+	STDMETHOD(SetQBHacked)(THIS_ const String REF qbname, int qbval) PURE;
 	STDMETHOD_(int, GetPlayerMaxPsiPoints)(THIS) PURE;
 	STDMETHOD(SetLogTime)(THIS_ int level, int logtype, int which) PURE;
 	STDMETHOD(AddTranslatableTextInt)(THIS_ const char *msg, const char *table,
