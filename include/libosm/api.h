@@ -370,7 +370,7 @@ typedef struct sScrTrace
 	int line;
 	sScrTraceHashKey hashkey;
 } sScrTrace;
-typedef union sVector
+typedef struct sVector
 {
 	float x, y, z;
 } sVector;
