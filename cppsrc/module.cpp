@@ -67,7 +67,7 @@ cScriptModule::GetFirstClass(unsigned int *iter)
 STDMETHODIMP_(const sScrClassDesc*)
 cScriptModule::GetNextClass(unsigned int *iter)
 {
-	return (NULL == iter && *iter + 1 < SCR_NUM) ? &g_classes[++(*iter)] : NULL;
+	return (NULL != iter && *iter + 1 < SCR_NUM) ? &g_classes[++(*iter)] : NULL;
 }
 
 STDMETHODIMP_(void) cScriptModule::EndClassIter(unsigned int *) { }
