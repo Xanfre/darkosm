@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include <libosm/api.h>
 
 #include "common.h"
@@ -41,13 +43,16 @@ STDMETHODIMP_(unsigned long) SMRelease(THIS)
 	if (0 == ((sScriptModule *) This)->count)
 		return 0;
 	if (0 == --((sScriptModule *) This)->count && COMCALL1(g_alloc, DidAlloc, This))
+	{
 		COMCALL1(g_alloc, Free, This);
+		return 0;
+	}
 	return ((sScriptModule *) This)->count;
 }
 
 STDMETHODIMP_(const char*) SMGetName(THIS)
 {
-	return "TestOSM";
+	return ((sScriptModule *) This)->name;
 }
 
 STDMETHODIMP_(const sScrClassDesc*) SMGetFirstClass(THIS_ unsigned int *iter)
@@ -70,31 +75,32 @@ static IScriptModuleVtbl g_modvtbl = { SMQueryInterface, SMAddRef, SMRelease,
 
 BOOL __declspec(dllexport) __stdcall
 ScriptModuleInit(const char *name, IScriptMan *man, fScrPrintFunc print,
-	IUnknown *alloc, IScriptModule **mod)
+	IUnknown *alloc, IScriptModule **outmod)
 {
-	sScriptModule *m;
+	sScriptModule *mod;
 
 	if (NULL == name || NULL == man || NULL == print || NULL == alloc
-		|| NULL == mod)
+		|| NULL == outmod)
 		return FALSE;
 
-	*mod = NULL;
+	*outmod = NULL;
 
-	COMCALL2(alloc, QueryInterface, &IID_IMalloc, (void **) &g_alloc);
-	if (NULL == g_alloc || NULL == (m = COMCALL1(g_alloc, Alloc,
-		sizeof(sScriptModule))))
+	if (NOERROR != COMCALL2(alloc, QueryInterface, &IID_IMalloc,
+			(void **) &g_alloc)
+		|| NULL == (mod = COMCALL1(g_alloc, Alloc, sizeof(sScriptModule))))
 		return FALSE;
 
+	strncpy(mod->name, name, sizeof(mod->name) - 1);
 	g_man = man;
 	g_print = print;
 
-	m->lpVtbl = &g_modvtbl;
-	m->count = 1;
-	g_modvtbl.QueryInterface((void *) m, &IID_IScriptModule, (void **) mod);
-	if (0 == g_modvtbl.Release((void *) m))
+	mod->lpVtbl = &g_modvtbl;
+	mod->count = 0;
+	if (NOERROR != COMCALL2((IScriptModule *) mod, QueryInterface,
+		&IID_IScriptModule, (void **) outmod))
 		return FALSE;
 
-	InitScripts(m->lpVtbl->GetName((void *) m));
+	InitScripts(COMCALL0((IScriptModule *) mod, GetName));
 
 	return TRUE;
 }

@@ -1,3 +1,5 @@
+#include <cstring>
+
 #include "api.hpp"
 #include "module.hpp"
 #include "script.hpp"
@@ -12,7 +14,11 @@ IMalloc *g_alloc = NULL;
 
 sScrClassDesc g_classes[SCR_NUM];
 
-static cScriptModule g_mod("TestOSM");
+cScriptModule::cScriptModule(const char *s) : count(0)
+{
+	strncpy(name, s, sizeof(name) - 1);
+	name[MAX_PATH - 1] = '\0';
+}
 
 STDMETHODIMP cScriptModule::QueryInterface(REFIID riid, void **ppv)
 {
@@ -47,17 +53,19 @@ STDMETHODIMP_(unsigned long) cScriptModule::Release()
 
 STDMETHODIMP_(const char*) cScriptModule::GetName()
 {
-	return modname;
+	return name;
 }
 
-STDMETHODIMP_(const sScrClassDesc*) cScriptModule::GetFirstClass(unsigned int *iter)
+STDMETHODIMP_(const sScrClassDesc*)
+cScriptModule::GetFirstClass(unsigned int *iter)
 {
 	if (NULL != iter)
 		*iter = 0;
 	return &g_classes[0];
 }
 
-STDMETHODIMP_(const sScrClassDesc*) cScriptModule::GetNextClass(unsigned int *iter)
+STDMETHODIMP_(const sScrClassDesc*)
+cScriptModule::GetNextClass(unsigned int *iter)
 {
 	return (NULL == iter && *iter + 1 < SCR_NUM) ? &g_classes[++(*iter)] : NULL;
 }
@@ -66,24 +74,27 @@ STDMETHODIMP_(void) cScriptModule::EndClassIter(unsigned int *) { }
 
 extern "C" BOOL __declspec(dllexport) __stdcall
 ScriptModuleInit(const char *name, IScriptMan *man, fScrPrintFunc print,
-	IUnknown *alloc, IScriptModule **mod)
+	IUnknown *alloc, IScriptModule **outmod)
 {
+	cScriptModule *mod;
+
 	if (NULL == name || NULL == man || NULL == print || NULL == alloc
-		|| NULL == mod)
+		|| NULL == outmod)
 		return FALSE;
 
-	*mod = NULL;
+	*outmod = NULL;
 
-	alloc->QueryInterface(IID_IMalloc, (void **) &g_alloc);
-	if (NULL == g_alloc)
+	if (NOERROR != alloc->QueryInterface(IID_IMalloc, (void **) &g_alloc)
+		|| NULL == (mod = new cScriptModule(name)))
 		return FALSE;
 
 	g_man = man;
 	g_print = print;
 
-	*mod = &g_mod;
+	if (NOERROR != mod->QueryInterface(IID_IScriptModule, (void **) outmod))
+		return FALSE;
 
-	InitScripts(g_mod.GetName());
+	InitScripts(mod->GetName());
 
 	return TRUE;
 }

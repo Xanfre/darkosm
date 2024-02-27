@@ -10,28 +10,35 @@
 
 /* Script Setup Macros */
 #define MAKE_SCR(_n,_a) \
-	STDMETHODIMP_(const char*) _n##GetClassName(THIS) { return ((sScript *) This)->name; } \
-	static IScriptVtbl _n##Vtbl = { SQueryInterface, SAddRef, SRelease, _n##GetClassName, _n##ReceiveMessage }; \
-	IScript * _n##Factory(const char *msg, int obj) \
+	STDMETHODIMP_(const char*) _n##GetClassName(THIS) \
 	{ \
-		sScript *s; \
-		IScript *script = NULL; \
-		UNUSED(msg) \
-		if (NULL == _a || NULL == (s = COMCALL1(_a, Alloc, sizeof(sScript)))) \
+		return ((sScript *) This)->name; \
+	} \
+	static IScriptVtbl _n##Vtbl = { SQueryInterface, SAddRef, SRelease, \
+		_n##GetClassName, _n##ReceiveMessage }; \
+	IScript * _n##Factory(const char *s, int obj) \
+	{ \
+		sScript *scr; \
+		IScript *ret = NULL; \
+		\
+		UNUSED(s) \
+		\
+		if (NULL == (scr = COMCALL1(_a, Alloc, sizeof(sScript)))) \
 			return NULL; \
-		s->lpVtbl = &_n##Vtbl; \
-		s->count = 1; \
-		s->name = #_n; \
-		s->obj = obj; \
-		_n##Vtbl.QueryInterface((void *) s, &IID_IScript, (void **) &script); \
-		return 0 == _n##Vtbl.Release((void *) s) ? NULL : script; \
+		scr->lpVtbl = &_n##Vtbl; \
+		scr->count = 0; \
+		scr->name = #_n; \
+		scr->obj = obj; \
+		COMCALL2((IScript *) scr, QueryInterface, &IID_IScript, \
+			(void **) &ret); \
+		return ret; \
 	}
-#define SCR_DESC(_n,_r,_i) \
-	g_classes[_i].mod = modname; \
+#define SCR_DESC(_m,_n,_r,_i) \
+	g_classes[_i].mod = _m; \
 	g_classes[_i].name = #_n; \
 	g_classes[_i].base = #_r; \
 	g_classes[_i].factory = _n##Factory;
-#define SCR_DESC_DEF(_n,_i) SCR_DESC(_n, RootScript, _i)
+#define SCR_DESC_DEF(_m,_n,_i) SCR_DESC(_m, _n, RootScript, _i)
 
 /* Message Macros */
 #define SCR_HANDLE_MSG(_n,_m,_t,_p1,_p2) \

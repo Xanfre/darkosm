@@ -7,14 +7,20 @@
 #define MAKE_SCR(_n) \
 	static IScript * _n##Factory(const char *, int obj) \
 	{ \
-		return new _n(#_n, obj); \
+		_n *scr; \
+		IScript *ret = NULL; \
+		\
+		if (NULL == (scr = new _n(#_n, obj))) \
+			return NULL; \
+		scr->QueryInterface(IID_IScript, (void **) &ret); \
+		return ret; \
 	}
-#define SCR_DESC(_n,_r,_i) \
-	g_classes[_i].mod = modname; \
+#define SCR_DESC(_m,_n,_r,_i) \
+	g_classes[_i].mod = _m; \
 	g_classes[_i].name = #_n; \
 	g_classes[_i].base = #_r; \
 	g_classes[_i].factory = _n##Factory;
-#define SCR_DESC_DEF(_n,_i) SCR_DESC(_n, RootScript, _i)
+#define SCR_DESC_DEF(_m,_n,_i) SCR_DESC(_m, _n, RootScript, _i)
 
 /* Message Macros */
 #define SCR_HANDLE_MSG(_m,_t,_p1,_p2) \
@@ -30,7 +36,7 @@
 class cScript : public IScript
 {
 public:
-	cScript(const char *n, int o) { name = n; obj = o; }
+	cScript(const char *n, int o);
 	virtual ~cScript() { }
 	STDMETHODIMP QueryInterface(REFIID, void **);
 	STDMETHODIMP_(unsigned long) AddRef();

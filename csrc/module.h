@@ -11,6 +11,7 @@ typedef struct sScriptModule
 {
 	IScriptModuleVtbl *lpVtbl;
 	unsigned int count;
+	char name[MAX_PATH];
 } sScriptModule;
 
 /* Script Module Functions */

@@ -7,7 +7,7 @@
 class cScriptModule : public IScriptModule
 {
 public:
-	cScriptModule(const char *s) { modname = s; }
+	cScriptModule(const char *);
 	virtual ~cScriptModule() { }
 	STDMETHODIMP QueryInterface(REFIID, void **);
 	STDMETHODIMP_(unsigned long) AddRef();
@@ -19,7 +19,7 @@ public:
 
 private:
 	unsigned int count;
-	const char *modname;
+	char name[MAX_PATH];
 };
 
 #endif

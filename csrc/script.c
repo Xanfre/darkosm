@@ -41,9 +41,11 @@ STDMETHODIMP_(unsigned long) SRelease(THIS)
 {
 	if (NULL == This || 0 == ((sScript *) This)->count)
 		return 0;
-	if (0 == --((sScript *) This)->count
-		&& COMCALL1(g_alloc, DidAlloc, This))
+	if (0 == --((sScript *) This)->count && COMCALL1(g_alloc, DidAlloc, This))
+	{
 		COMCALL1(g_alloc, Free, This);
+		return 0;
+	}
 	return ((sScript *) This)->count;
 }
 
@@ -53,6 +55,7 @@ STDMETHODIMP TestScriptReceiveMessage(THIS_ sScrMsg *msg, sMultiParm *data,
 	eScrTraceAction act)
 {
 	UNUSED(act)
+
 	SCR_HANDLE_MSG(TestScript, FrobWorldEnd, sFrobMsg, msg, data)
 	return 0;
 }
@@ -63,8 +66,10 @@ long TestScriptOnFrobWorldEnd(sScript *scr, sFrobMsg *msg, sMultiParm *data)
 	char frobber[33] = { 0 };
 	const char *m[8] = { "FrobWorldEnd on ", NULL, " from ", NULL, "", "", "",
 		"" };
+
 	UNUSED(scr)
 	UNUSED(data)
+
 	m[1] = &srcobj[0];
 	m[3] = &frobber[0];
 	sprintf(srcobj, "%d", msg->srcobj);
@@ -76,7 +81,6 @@ long TestScriptOnFrobWorldEnd(sScript *scr, sFrobMsg *msg, sMultiParm *data)
 
 void InitScripts(const char *modname)
 {
-	unsigned int i = 0;
 	INIT_SERVICES(g_man)
-	SCR_DESC_DEF(TestScript, i)
+	SCR_DESC_DEF(modname, TestScript, 0)
 }

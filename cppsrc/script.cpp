@@ -14,6 +14,8 @@ extern sScrClassDesc g_classes[SCR_NUM];
 
 DEF_SERVICES()
 
+cScript::cScript(const char *n, int o) : count(0), name(n), obj(o) { }
+
 STDMETHODIMP cScript::QueryInterface(REFIID riid, void **ppv)
 {
 	if (!IsEqualIID(riid, IID_IScript))
@@ -68,6 +70,7 @@ long TestScript::OnFrobWorldEnd(sFrobMsg *msg, sMultiParm *)
 {
 	char srcobj[33] = { 0 };
 	char frobber[33] = { 0 };
+
 	sprintf(srcobj, "%d", msg->srcobj);
 	sprintf(frobber, "%d", msg->frobber);
 	Debug->MPrint("FrobWorldEnd on ", srcobj, " from ", frobber);
@@ -76,7 +79,6 @@ long TestScript::OnFrobWorldEnd(sFrobMsg *msg, sMultiParm *)
 
 void InitScripts(const char *modname)
 {
-	unsigned int i = 0;
 	INIT_SERVICES(g_man)
-	SCR_DESC_DEF(TestScript, i);
+	SCR_DESC_DEF(modname, TestScript, 0);
 }
