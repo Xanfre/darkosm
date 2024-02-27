@@ -64,7 +64,7 @@ STDMETHODIMP_(const sScrClassDesc*) SMGetFirstClass(THIS_ unsigned int *iter)
 
 STDMETHODIMP_(const sScrClassDesc*) SMGetNextClass(THIS_ unsigned int *iter)
 {
-	return (NULL == iter && *iter + 1 < SCR_NUM) ? &g_classes[++(*iter)] : NULL;
+	return (NULL != iter && *iter + 1 < SCR_NUM) ? &g_classes[++(*iter)] : NULL;
 }
 
 STDMETHODIMP_(void) SMEndClassIter(THIS_ unsigned int *iter) { UNUSED(iter) }
