@@ -9,9 +9,9 @@
 #define Link_(_q) _q->ID()
 #define NextLink(_q) _q->Next()
 #else
-#define AnyLinksLeft(_q) _q->Done(_q)
-#define Link_(_q) _q->ID(_q)
-#define NextLink(_q) _q->Next(_q)
+#define AnyLinksLeft(_q) _q->lpVtbl->Done(_q)
+#define Link_(_q) _q->lpVtbl->ID(_q)
+#define NextLink(_q) _q->lpVtbl->Next(_q)
 #endif
 
 /* Link Query Interface */

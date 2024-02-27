@@ -31,6 +31,7 @@
 
 /* Forward Declarations */
 typedef struct sMultiParm sMultiParm;
+typedef struct sVector sVector;
 typedef struct sScrMsg sScrMsg;
 
 /* GUID Definitions */
@@ -337,7 +338,7 @@ struct sMultiParm
 		int o;
 		float f;
 		char *s;
-		union sVector *v;
+		sVector *v;
 	} val;
 	eMultiParmType type;
 };
@@ -370,10 +371,10 @@ typedef struct sScrTrace
 	int line;
 	sScrTraceHashKey hashkey;
 } sScrTrace;
-typedef struct sVector
+struct sVector
 {
 	float x, y, z;
-} sVector;
+};
 
 /* Script Message Types */
 #ifdef __cplusplus
@@ -740,33 +741,34 @@ DECLARE_INTERFACE_(IScriptMan, IUnknown)
 	STDMETHOD_(void, PostMessage)(THIS_ sScrMsg *) PURE;
 	STDMETHOD_(void *, SetTimedMessage)(THIS_ sScrMsg *, unsigned long,
 		eScrTimedMsgKind) PURE;
-	STDMETHOD_ (sMultiParm, SendMessage2)(int, int, const char *,
+	STDMETHOD_ (sMultiParm, SendMessage2)(THIS_ int, int, const char *,
 		const MultiParm REF, const MultiParm REF, const MultiParm REF) PURE;
 #ifdef THIEF1
-	STDMETHOD_(void, PostMessage2)(int, int, const char *, const MultiParm REF,
-		const MultiParm REF, const MultiParm REF) PURE;
+	STDMETHOD_(void, PostMessage2)(THIS_ int, int, const char *,
+		const MultiParm REF, const MultiParm REF, const MultiParm REF) PURE;
 #else
-	STDMETHOD_(void, PostMessage2)(int, int, const char *, const MultiParm REF,
-		const MultiParm REF, const MultiParm REF, unsigned long flags) PURE;
+	STDMETHOD_(void, PostMessage2)(THIS_ int, int, const char *,
+		const MultiParm REF, const MultiParm REF, const MultiParm REF,
+		unsigned long flags) PURE;
 #endif
-	STDMETHOD_(void *, SetTimedMessage2)(int, const char *, unsigned long,
+	STDMETHOD_(void *, SetTimedMessage2)(THIS_ int, const char *, unsigned long,
 		eScrTimedMsgKind, const MultiParm REF) PURE;
 	STDMETHOD_(BOOL, IsScriptDataSet)(THIS_ const sScrDatumTag *) PURE;
 	STDMETHOD (GetScriptData)(THIS_ const sScrDatumTag *, sMultiParm *) PURE;
 	STDMETHOD (SetScriptData)(THIS_ const sScrDatumTag *,
 		const sMultiParm *) PURE;
 	STDMETHOD (ClearScriptData)(THIS_ const sScrDatumTag *, sMultiParm *) PURE;
-	STDMETHOD (AddTrace)(int Object, char *, eScrTraceAction, int) PURE;
-	STDMETHOD (RemoveTrace)(int, char *) PURE;
-	STDMETHOD_ (BOOL, GetTraceLine)(int) PURE;
-	STDMETHOD_ (void, SetTraceLine)(int, BOOL) PURE;
-	STDMETHOD_ (int, GetTraceLineMask)() PURE;
-	STDMETHOD_ (void, SetTraceLineMask)(int) PURE;
-	STDMETHOD_(const sScrTrace *, GetFirstTrace)(unsigned int *) PURE;
-	STDMETHOD_(const sScrTrace *, GetNextTrace)(unsigned int *) PURE;
-	STDMETHOD_(void, EndTraceIter)(unsigned int *) PURE;
+	STDMETHOD (AddTrace)(THIS_ int Object, char *, eScrTraceAction, int) PURE;
+	STDMETHOD (RemoveTrace)(THIS_ int, char *) PURE;
+	STDMETHOD_ (BOOL, GetTraceLine)(THIS_ int) PURE;
+	STDMETHOD_ (void, SetTraceLine)(THIS_ int, BOOL) PURE;
+	STDMETHOD_ (int, GetTraceLineMask)(THIS) PURE;
+	STDMETHOD_ (void, SetTraceLineMask)(THIS_ int) PURE;
+	STDMETHOD_(const sScrTrace *, GetFirstTrace)(THIS_ unsigned int *) PURE;
+	STDMETHOD_(const sScrTrace *, GetNextTrace)(THIS_ unsigned int *) PURE;
+	STDMETHOD_(void, EndTraceIter)(THIS_ unsigned int *) PURE;
 	STDMETHOD (SaveLoad)(THIS_ fPersistIOFunc, void *, BOOL) PURE;
-	STDMETHOD_(void, PostLoad)() PURE;
+	STDMETHOD_(void, PostLoad)(THIS) PURE;
 };
 #undef INTERFACE
 #define INTERFACE IScriptModule

@@ -9,19 +9,20 @@
 DECLARE_SCRIPT_SERVICE(Property, 0xda)
 {
 	SERVICE_FUNCS()
-	STDMETHOD_(MultiParm *, Get)(MultiParm REF ret, int obj, const char * prop,
-		const char * field DEF_ARG(NULL)) PURE;
-	STDMETHOD(Set)(int obj, const char * prop, const char * field,
+	STDMETHOD_(MultiParm *, Get)(THIS_ MultiParm REF ret, int obj,
+		const char * prop, const char * field DEF_ARG(NULL)) PURE;
+	STDMETHOD(Set)(THIS_ int obj, const char * prop, const char * field,
 		const MultiParm REF) PURE;
-	STDMETHOD(SetSimple)(int obj, const char * prop, const MultiParm REF) PURE;
+	STDMETHOD(SetSimple)(THIS_ int obj, const char * prop, const MultiParm REF)
+		PURE;
 #ifndef THIEF1
-	STDMETHOD(SetLocal)(int obj, const char * prop, const char * field,
+	STDMETHOD(SetLocal)(THIS_ int obj, const char * prop, const char * field,
 		const MultiParm REF) PURE;
 #endif
-	STDMETHOD(Add)(int obj, const char* prop) PURE;
-	STDMETHOD(Remove)(int obj, const char* prop) PURE;
-	STDMETHOD(CopyFrom)(int targ, const char* prop, int src) PURE;
-	STDMETHOD_(BOOL, Possessed)(int obj, const char* prop) PURE;
+	STDMETHOD(Add)(THIS_ int obj, const char* prop) PURE;
+	STDMETHOD(Remove)(THIS_ int obj, const char* prop) PURE;
+	STDMETHOD(CopyFrom)(THIS_ int targ, const char* prop, int src) PURE;
+	STDMETHOD_(BOOL, Possessed)(THIS_ int obj, const char* prop) PURE;
 
 #ifdef NEWDARK
 	/*
@@ -29,12 +30,12 @@ DECLARE_SCRIPT_SERVICE(Property, 0xda)
 	*/
 
 #ifdef THIEF1
-	STDMETHOD(SetLocal)(int obj, const char * prop, const char * field,
+	STDMETHOD(SetLocal)(THIS_ int obj, const char * prop, const char * field,
 		const MultiParm REF) PURE;
 #endif
 	/* query if int has a property set locally, ignoring inheritance from
 	 * archetypes and metaproperties */
-	STDMETHOD_(BOOL, PossessedSimple)(int obj, const char* prop) PURE;
+	STDMETHOD_(BOOL, PossessedSimple)(THIS_ int obj, const char* prop) PURE;
 #endif
 };
 
