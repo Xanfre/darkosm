@@ -148,7 +148,8 @@ typedef enum eMultiParmType
 	kMT_Float,
 	kMT_String,
 	kMT_Vector,
-	kMT_Object
+	kMT_Object,
+	kMT_Max = 0x7FFFFFFF
 } eMultiParmType;
 typedef enum eObjType
 {
@@ -251,7 +252,7 @@ typedef enum eScrTraceAction
 	kSTA_NoAction,
 	kSTA_Break,
 	kSTA_Spew,
-	kSTA_Pad = 65536
+	kSTA_Max = 0xFFFF
 } eScrTraceAction;
 typedef enum eSoundNetwork
 {
