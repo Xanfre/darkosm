@@ -17,7 +17,7 @@ sScrClassDesc g_classes[SCR_NUM];
 cScriptModule::cScriptModule(const char *s) : count(0)
 {
 	strncpy(name, s, sizeof(name) - 1);
-	name[MAX_PATH - 1] = '\0';
+	name[sizeof(name) - 1] = '\0';
 }
 
 STDMETHODIMP cScriptModule::QueryInterface(REFIID riid, void **ppv)

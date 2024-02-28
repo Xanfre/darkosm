@@ -91,6 +91,7 @@ ScriptModuleInit(const char *name, IScriptMan *man, fScrPrintFunc print,
 		return FALSE;
 
 	strncpy(mod->name, name, sizeof(mod->name) - 1);
+	mod->name[sizeof(mod->name) - 1] = '\0';
 	g_man = man;
 	g_print = print;
 
