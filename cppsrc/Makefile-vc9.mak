@@ -4,7 +4,7 @@ NODEBUG=1
 
 objdir = .\objs
 
-CFLAGS = $(cflags) $(cvarsdll)
+CFLAGS = $(cflags) $(cvarsdll) $(cdebug)
 CPPFLAGS = -D_CRT_SECURE_NO_WARNINGS -I..\include
 LDFLAGS = $(dlllflags)
 
