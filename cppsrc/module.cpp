@@ -78,24 +78,18 @@ ScriptModuleInit(const char *name, IScriptMan *man, fScrPrintFunc print,
 {
 	cScriptModule *mod;
 
-	if (NULL == name || NULL == man || NULL == print || NULL == alloc
-		|| NULL == outmod)
+	if (NULL == name || NULL == man || NULL == alloc || NULL == outmod)
 		return FALSE;
-
 	*outmod = NULL;
-
 	if (NOERROR != alloc->QueryInterface(IID_IMalloc, (void **) &g_alloc)
 		|| NULL == (mod = new cScriptModule(name)))
 		return FALSE;
-
 	g_man = man;
-	g_print = print;
-
+	if (NULL != print)
+		g_print = print;
 	if (NOERROR != mod->QueryInterface(IID_IScriptModule, (void **) outmod))
 		return FALSE;
-
 	InitScripts(mod->GetName());
-
 	return TRUE;
 }
 

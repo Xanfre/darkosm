@@ -79,30 +79,24 @@ ScriptModuleInit(const char *name, IScriptMan *man, fScrPrintFunc print,
 {
 	sScriptModule *mod;
 
-	if (NULL == name || NULL == man || NULL == print || NULL == alloc
-		|| NULL == outmod)
+	if (NULL == name || NULL == man || NULL == alloc || NULL == outmod)
 		return FALSE;
-
 	*outmod = NULL;
-
 	if (NOERROR != COMCALL2(alloc, QueryInterface, &IID_IMalloc,
 			(void **) &g_alloc)
 		|| NULL == (mod = COMCALL1(g_alloc, Alloc, sizeof(sScriptModule))))
 		return FALSE;
-
 	strncpy(mod->name, name, sizeof(mod->name) - 1);
 	mod->name[sizeof(mod->name) - 1] = '\0';
 	g_man = man;
-	g_print = print;
-
+	if (NULL != print)
+		g_print = print;
 	mod->lpVtbl = &g_modvtbl;
 	mod->count = 0;
 	if (NOERROR != COMCALL2((IScriptModule *) mod, QueryInterface,
 		&IID_IScriptModule, (void **) outmod))
 		return FALSE;
-
 	InitScripts(COMCALL0((IScriptModule *) mod, GetName));
-
 	return TRUE;
 }
 
