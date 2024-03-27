@@ -419,7 +419,7 @@ struct sScrMsg : sScrMsgBase, sPersistent
 #define SCR_MSG_NAME(_s)
 typedef struct sPersistentVtbl
 {
-	void (*Destruct)(void *); /* destructor */
+	void (*Destruct)(struct sPersistentVtbl *); /* destructor */
 	BOOL (*Persistence)(struct sPersistentVtbl *); /* __thiscall */
 	const char * (*GetName)(struct sPersistentVtbl *); /* __thiscall */
 } sPersistentVtbl;
@@ -737,10 +737,10 @@ DECLARE_INTERFACE_(IScriptMan, IUnknown)
 	STDMETHOD (ForgetAllObjs)(THIS) PURE;
 	STDMETHOD_(BOOL, WantsMessage)(THIS_ int, const char *) PURE;
 	STDMETHOD (SendMessage)(THIS_ sScrMsg *, sMultiParm *) PURE;
-	STDMETHOD_(void, KillTimedMessage)(THIS_ void *) PURE;
+	STDMETHOD_(void, KillTimedMessage)(THIS_ unsigned int) PURE;
 	STDMETHOD_(int, PumpMessages)(THIS) PURE;
 	STDMETHOD_(void, PostMessage)(THIS_ sScrMsg *) PURE;
-	STDMETHOD_(void *, SetTimedMessage)(THIS_ sScrMsg *, unsigned long,
+	STDMETHOD_(unsigned int, SetTimedMessage)(THIS_ sScrMsg *, unsigned long,
 		eScrTimedMsgKind) PURE;
 	STDMETHOD_ (sMultiParm, SendMessage2)(THIS_ int, int, const char *,
 		const MultiParm REF, const MultiParm REF, const MultiParm REF) PURE;
@@ -752,8 +752,8 @@ DECLARE_INTERFACE_(IScriptMan, IUnknown)
 		const MultiParm REF, const MultiParm REF, const MultiParm REF,
 		unsigned long flags) PURE;
 #endif
-	STDMETHOD_(void *, SetTimedMessage2)(THIS_ int, const char *, unsigned long,
-		eScrTimedMsgKind, const MultiParm REF) PURE;
+	STDMETHOD_(unsigned int, SetTimedMessage2)(THIS_ int, const char *,
+		unsigned long, eScrTimedMsgKind, const MultiParm REF) PURE;
 	STDMETHOD_(BOOL, IsScriptDataSet)(THIS_ const sScrDatumTag *) PURE;
 	STDMETHOD (GetScriptData)(THIS_ const sScrDatumTag *, sMultiParm *) PURE;
 	STDMETHOD (SetScriptData)(THIS_ const sScrDatumTag *,
