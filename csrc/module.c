@@ -19,7 +19,7 @@ IMalloc *g_alloc = NULL;
 
 sScrClassDesc g_classes[SCR_NUM];
 
-STDMETHODIMP SMQueryInterface(THIS_ REFIID riid, void **ppv)
+static STDMETHODIMP QueryInterface(THIS_ REFIID riid, void **ppv)
 {
 	if (!IsEqualIID(riid, &IID_IScriptModule))
 	{
@@ -33,12 +33,12 @@ STDMETHODIMP SMQueryInterface(THIS_ REFIID riid, void **ppv)
 	return NOERROR;
 }
 
-STDMETHODIMP_(unsigned long) SMAddRef(THIS)
+static STDMETHODIMP_(unsigned long) AddRef(THIS)
 {
 	return ++((sScriptModule *) This)->count;
 }
 
-STDMETHODIMP_(unsigned long) SMRelease(THIS)
+static STDMETHODIMP_(unsigned long) Release(THIS)
 {
 	if (0 == ((sScriptModule *) This)->count)
 		return 0;
@@ -50,28 +50,28 @@ STDMETHODIMP_(unsigned long) SMRelease(THIS)
 	return ((sScriptModule *) This)->count;
 }
 
-STDMETHODIMP_(const char*) SMGetName(THIS)
+static STDMETHODIMP_(const char*) GetName(THIS)
 {
 	return ((sScriptModule *) This)->name;
 }
 
-STDMETHODIMP_(const sScrClassDesc*) SMGetFirstClass(THIS_ unsigned int *iter)
+static STDMETHODIMP_(const sScrClassDesc*) GetFirstClass(THIS_ unsigned int *iter)
 {
 	if (NULL != iter)
 		*iter = 0;
 	return &g_classes[0];
 }
 
-STDMETHODIMP_(const sScrClassDesc*) SMGetNextClass(THIS_ unsigned int *iter)
+static STDMETHODIMP_(const sScrClassDesc*) GetNextClass(THIS_ unsigned int *iter)
 {
 	return (NULL != iter && *iter + 1 < SCR_NUM) ? &g_classes[++(*iter)] : NULL;
 }
 
-STDMETHODIMP_(void) SMEndClassIter(THIS_ unsigned int *iter) { UNUSED(iter) }
+static STDMETHODIMP_(void) EndClassIter(THIS_ unsigned int *iter) { UNUSED(iter) }
 
-static IScriptModuleVtbl g_modvtbl = { SMQueryInterface, SMAddRef, SMRelease,
-									SMGetName, SMGetFirstClass, SMGetNextClass,
-									SMEndClassIter };
+static IScriptModuleVtbl g_modvtbl = { QueryInterface, AddRef, Release,
+									GetName, GetFirstClass, GetNextClass,
+									EndClassIter };
 
 BOOL __declspec(dllexport) __stdcall
 ScriptModuleInit(const char *name, IScriptMan *man, fScrPrintFunc print,

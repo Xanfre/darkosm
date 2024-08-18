@@ -18,7 +18,7 @@ extern sScrClassDesc g_classes[SCR_NUM];
 
 DEF_SERVICES()
 
-STDMETHODIMP SQueryInterface(THIS_ REFIID riid, void **ppv)
+static STDMETHODIMP QueryInterface(THIS_ REFIID riid, void **ppv)
 {
 	if (!IsEqualIID(riid, &IID_IScript))
 	{
@@ -32,12 +32,12 @@ STDMETHODIMP SQueryInterface(THIS_ REFIID riid, void **ppv)
 	return NOERROR;
 }
 
-STDMETHODIMP_(unsigned long) SAddRef(THIS)
+static STDMETHODIMP_(unsigned long) AddRef(THIS)
 {
 	return NULL == This ? 0 : ++((sScript *) This)->count;
 }
 
-STDMETHODIMP_(unsigned long) SRelease(THIS)
+static STDMETHODIMP_(unsigned long) Release(THIS)
 {
 	if (NULL == This || 0 == ((sScript *) This)->count)
 		return 0;
@@ -51,8 +51,8 @@ STDMETHODIMP_(unsigned long) SRelease(THIS)
 
 MAKE_SCR(TestScript, g_alloc)
 
-STDMETHODIMP TestScriptReceiveMessage(THIS_ sScrMsg *msg, sMultiParm *data,
-	eScrTraceAction act)
+static STDMETHODIMP TestScriptReceiveMessage(THIS_ sScrMsg *msg,
+	sMultiParm *data, eScrTraceAction act)
 {
 	UNUSED(act)
 

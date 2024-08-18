@@ -10,11 +10,13 @@
 
 /* Script Setup Macros */
 #define MAKE_SCR(_n,_a) \
-	STDMETHODIMP_(const char*) _n##GetClassName(THIS) \
+	static STDMETHODIMP_(const char*) _n##GetClassName(THIS) \
 	{ \
 		return ((sScript *) This)->name; \
 	} \
-	static IScriptVtbl _n##Vtbl = { SQueryInterface, SAddRef, SRelease, \
+	static STDMETHODIMP _n##ReceiveMessage(THIS_ sScrMsg *, sMultiParm *, \
+		eScrTraceAction); \
+	static IScriptVtbl _n##Vtbl = { QueryInterface, AddRef, Release, \
 		_n##GetClassName, _n##ReceiveMessage }; \
 	IScript * _n##Factory(const char *s, int obj) \
 	{ \
@@ -60,9 +62,5 @@ typedef struct sScript
 } sScript;
 
 /* Prototypes */
-STDMETHODIMP SQueryInterface(THIS_ REFIID, void **);
-STDMETHODIMP_(unsigned long) SAddRef(THIS);
-STDMETHODIMP_(unsigned long) SRelease(THIS);
-STDMETHODIMP TestScriptReceiveMessage(THIS_ sScrMsg *, sMultiParm *, eScrTraceAction);
 long TestScriptOnFrobWorldEnd(sScript *, sFrobMsg *, sMultiParm *);
 void InitScripts(const char *modname);
