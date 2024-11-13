@@ -14,7 +14,7 @@ OSM_NAME ?= script
 OSM_OBJS = $(objdir)/module.o \
 		   $(objdir)/$(OSM_NAME).o \
 		   $(objdir)/alloc.o \
-		   $(objdir)/api.o
+		   $(objdir)/apiex.o
 OBJS = $(OSM_OBJS) $(objdir)/exports.o
 
 all: $(objdir) $(OSM_NAME).osm
@@ -28,10 +28,10 @@ $(objdir)/exports.o: $(OSM_OBJS)
 $(OSM_NAME).osm: $(OBJS)
 	$(CXX) $(CFLAGS_ALL) $(LDFLAGS_ALL) $^ -o $@ $(LIBS)
 
-$(objdir)/module.o: api.hpp module.hpp script.hpp
-$(objdir)/script.o: api.hpp script.hpp
-$(objdir)/alloc.o: api.hpp
-$(objdir)/api.o: api.hpp
+$(objdir)/module.o: apiex.hpp module.hpp script.hpp
+$(objdir)/script.o: apiex.hpp script.hpp
+$(objdir)/alloc.o: apiex.hpp
+$(objdir)/apiex.o: apiex.hpp
 
 clean:
 	-rm -rf $(objdir)

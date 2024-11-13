@@ -15,21 +15,21 @@ OSM_NAME = script
 OBJS = $(objdir)\module.obj \
 	$(objdir)\$(OSM_NAME).obj \
 	$(objdir)\alloc.obj \
-	$(objdir)\api.obj
+	$(objdir)\apiex.obj
 
 all: $(objdir) $(OSM_NAME).osm
 
-$(objdir)\module.obj: module.cpp api.hpp module.hpp script.hpp
+$(objdir)\module.obj: module.cpp apiex.hpp module.hpp script.hpp
 	$(cc) $(CFLAGS) $(CPPFLAGS) /Fo$(objdir)\ /Fd$(objdir)\ /c module.cpp
 
-$(objdir)\script.obj: script.cpp api.hpp script.hpp
+$(objdir)\script.obj: script.cpp apiex.hpp script.hpp
 	$(cc) $(CFLAGS) $(CPPFLAGS) /Fo$(objdir)\ /Fd$(objdir)\ /c script.cpp
 
-$(objdir)\alloc.obj: alloc.cpp api.hpp
+$(objdir)\alloc.obj: alloc.cpp apiex.hpp
 	$(cc) $(CFLAGS) $(CPPFLAGS) /Fo$(objdir)\ /Fd$(objdir)\ /c alloc.cpp
 
-$(objdir)\api.obj: api.cpp api.hpp
-	$(cc) $(CFLAGS) $(CPPFLAGS) /Fo$(objdir)\ /Fd$(objdir)\ /c api.cpp
+$(objdir)\apiex.obj: apiex.cpp apiex.hpp
+	$(cc) $(CFLAGS) $(CPPFLAGS) /Fo$(objdir)\ /Fd$(objdir)\ /c apiex.cpp
 
 $(OSM_NAME).osm: $(OBJS)
 	$(link) $(LDFLAGS) -out:$@ $** $(LIBS)

@@ -1,7 +1,7 @@
 #ifndef __MODULE_H
 #define __MODULE_H
 
-#include "api.hpp"
+#include "apiex.hpp"
 
 /* Script Module Class */
 class cScriptModule : public IScriptModule

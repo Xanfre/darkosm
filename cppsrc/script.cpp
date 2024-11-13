@@ -1,6 +1,6 @@
 #include <cstdio>
 
-#include "api.hpp"
+#include "apiex.hpp"
 #include "script.hpp"
 
 #include <libosm/service/debug.h>
@@ -74,6 +74,7 @@ long TestScript::OnFrobWorldEnd(sFrobMsg *msg, sMultiParm *)
 	sprintf(srcobj, "%d", msg->srcobj);
 	sprintf(frobber, "%d", msg->frobber);
 	Debug->MPrint("FrobWorldEnd on ", srcobj, " from ", frobber);
+
 	return 0;
 }
 

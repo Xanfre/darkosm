@@ -1,8 +1,6 @@
 #include <cstring>
 
-#include <libosm/api.h>
-
-#include "api.hpp"
+#include "apiex.hpp"
 
 /* cMultiParm */
 cMultiParm::cMultiParm()
