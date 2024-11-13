@@ -20,7 +20,7 @@ DECLARE_SCRIPT_SERVICE(Camera, 0x140)
 	*/
 
 	/* get the int the camera is currently attached to */
-	STDMETHOD_(int *, GetCameraParent)(THIS int REF ret) PURE;
+	STDMETHOD_(int *, GetCameraParent)(THIS_ int REF ret) PURE;
 	/* returns true if GetCameraParent() != PlayerObject() */
 	STDMETHOD_(BOOL *, IsRemote)(THIS_ BOOL ret) PURE;
 	/* get location/rotation for the camera */
