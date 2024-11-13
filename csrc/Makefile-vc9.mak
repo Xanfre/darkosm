@@ -13,7 +13,8 @@ LIBS = uuid.lib
 OSM_NAME = script
 
 OBJS = $(objdir)/module.obj \
-	$(objdir)/$(OSM_NAME).obj
+	$(objdir)/$(OSM_NAME).obj \
+	$(objdir)/apiex.obj
 
 all: $(objdir) $(OSM_NAME).osm
 
@@ -22,6 +23,9 @@ $(objdir)\module.obj: module.c common.h module.h script.h
 
 $(objdir)\script.obj: script.c common.h script.h
 	$(cc) $(CFLAGS) $(CPPFLAGS) /Fo$(objdir)\ /Fd$(objdir)\ /c script.c
+
+$(objdir)\apiex.obj: apiex.h
+	$(cc) $(CFLAGS) $(CPPFLAGS) /Fo$(objdir)\ /Fd$(objdir)\ /c apiex.c
 
 $(OSM_NAME).osm: $(OBJS)
 	$(link) $(LDFLAGS) -out:$@ $** $(LIBS)

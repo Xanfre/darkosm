@@ -12,7 +12,8 @@ LIBS = -luuid
 OSM_NAME ?= script
 
 OSM_OBJS = $(objdir)/module.o \
-		   $(objdir)/$(OSM_NAME).o
+		   $(objdir)/$(OSM_NAME).o \
+		   $(objdir)/apiex.o
 OBJS = $(OSM_OBJS) $(objdir)/exports.o
 
 all: $(objdir) $(OSM_NAME).osm
@@ -28,6 +29,7 @@ $(OSM_NAME).osm: $(OBJS)
 
 $(objdir)/module.o: common.h module.h script.h
 $(objdir)/script.o: common.h script.h
+$(objdir)/apiex.o: apiex.h
 
 clean:
 	-rm -rf $(objdir)
