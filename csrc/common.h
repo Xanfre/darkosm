@@ -3,8 +3,11 @@
 
 /* Helper Macros */
 #define UNUSED(_x) (void)(_x);
-/* There are no variadic macros in ANSI C, so use discrete macros instead for
- * each number of arguments. */
+#if (__STDC_VERSION__ >= 202311L) || (!defined(__STRICT_ANSI__) && defined(__GNUC__))
+#define COMCALL(_i,_m,...) (_i)->lpVtbl->_m(_i __VA_OPT__(,) __VA_ARGS__)
+#endif
+/* NOTE: There are no variadic macros in ANSI C, so use discrete macros instead
+ * for each number of arguments. */
 #define COMCALL0(_i,_m) (_i)->lpVtbl->_m(_i)
 #define COMCALL1(_i,_m,_a1) (_i)->lpVtbl->_m(_i, _a1)
 #define COMCALL2(_i,_m,_a1,_a2) (_i)->lpVtbl->_m(_i, _a1, _a2)
