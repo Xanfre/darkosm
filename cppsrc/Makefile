@@ -4,7 +4,7 @@ CXX = i686-w64-mingw32-g++
 DLLTOOL = i686-w64-mingw32-dlltool
 
 CFLAGS_ALL = -std=c++98 -O2 -march=native -pipe $(CFLAGS)
-CPPFLAGS_ALL = -Wall -Wextra -pedantic -I../include $(CPPFLAGS)
+CPPFLAGS_ALL = -Wall -Wextra -pedantic -I../include -DNEWDARK $(CPPFLAGS)
 LDFLAGS_ALL = -shared -s $(LDFLAGS)
 
 LIBS = -luuid

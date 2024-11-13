@@ -5,7 +5,7 @@ NODEBUG=1
 objdir = .\objs
 
 CFLAGS = $(cflags) $(cvarsdll) $(cdebug)
-CPPFLAGS = -D_CRT_SECURE_NO_WARNINGS -I..\include
+CPPFLAGS = -D_CRT_SECURE_NO_WARNINGS -I..\include -DNEWDARK
 LDFLAGS = $(dlllflags)
 
 LIBS = uuid.lib
