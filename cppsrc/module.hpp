@@ -9,13 +9,13 @@ class cScriptModule : public IScriptModule
 public:
 	cScriptModule(const char *);
 	virtual ~cScriptModule() { }
-	STDMETHODIMP QueryInterface(REFIID, void **);
-	STDMETHODIMP_(unsigned long) AddRef();
-	STDMETHODIMP_(unsigned long) Release();
-	STDMETHODIMP_(const char*) GetName();
-	STDMETHODIMP_(const sScrClassDesc*) GetFirstClass(unsigned int *);
-	STDMETHODIMP_(const sScrClassDesc*) GetNextClass(unsigned int *);
-	STDMETHODIMP_(void) EndClassIter(unsigned int *);
+	STDMETHOD(QueryInterface)(REFIID, void **);
+	STDMETHOD_(unsigned long, AddRef)();
+	STDMETHOD_(unsigned long, Release)();
+	STDMETHOD_(const char*, GetName)();
+	STDMETHOD_(const sScrClassDesc*, GetFirstClass)(unsigned int *);
+	STDMETHOD_(const sScrClassDesc*, GetNextClass)(unsigned int *);
+	STDMETHOD_(void, EndClassIter)(unsigned int *);
 
 private:
 	unsigned int count;

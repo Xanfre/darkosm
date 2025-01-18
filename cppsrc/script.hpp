@@ -38,11 +38,11 @@ class cScript : public IScript
 public:
 	cScript(const char *n, int o);
 	virtual ~cScript() { }
-	STDMETHODIMP QueryInterface(REFIID, void **);
-	STDMETHODIMP_(unsigned long) AddRef();
-	STDMETHODIMP_(unsigned long) Release();
-	STDMETHODIMP_(const char*) GetClassName();
-	STDMETHODIMP ReceiveMessage(sScrMsg *, sMultiParm *, eScrTraceAction);
+	STDMETHOD(QueryInterface)(REFIID, void **);
+	STDMETHOD_(unsigned long, AddRef)();
+	STDMETHOD_(unsigned long, Release)();
+	STDMETHOD_(const char*, GetClassName)();
+	STDMETHOD(ReceiveMessage)(sScrMsg *, sMultiParm *, eScrTraceAction);
 
 private:
 	unsigned int count;
@@ -55,7 +55,7 @@ class TestScript : public cScript
 {
 public:
 	TestScript(const char *n, int o) : cScript(n, o) { };
-	STDMETHODIMP ReceiveMessage(sScrMsg *, sMultiParm *, eScrTraceAction);
+	STDMETHOD(ReceiveMessage)(sScrMsg *, sMultiParm *, eScrTraceAction);
 	long OnSim(sSimMsg *, sMultiParm *);
 	long OnBeginScript(sScrMsg *, sMultiParm *);
 	long OnTest(sScrMsg *, sMultiParm *);
