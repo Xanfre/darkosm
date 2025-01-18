@@ -545,7 +545,7 @@ typedef SCR_MSG_TYPE(sDoorMsg)
 	SCR_MSG_NAME("sDoorMsg")
 	eDoorAction action;
 	eDoorAction prevaction;
-#ifndef THIEF1
+#if !defined(THIEF1) || defined(NEWDARK)
 	BOOL proxy;
 #endif
 } sDoorMsg;
