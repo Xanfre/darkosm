@@ -93,3 +93,10 @@ ScriptModuleInit(const char *name, IScriptMan *man, fScrPrintFunc print,
 	return TRUE;
 }
 
+extern "C" BOOL WINAPI DllMain(HINSTANCE, DWORD reason, LPVOID)
+{
+	if (DLL_PROCESS_DETACH == reason && NULL != g_alloc)
+		g_alloc->Release();
+	return TRUE;
+}
+

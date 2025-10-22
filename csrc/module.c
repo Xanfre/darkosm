@@ -100,3 +100,13 @@ ScriptModuleInit(const char *name, IScriptMan *man, fScrPrintFunc print,
 	return TRUE;
 }
 
+BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID reserved)
+{
+	UNUSED(instance)
+	UNUSED(reserved)
+
+	if (DLL_PROCESS_DETACH == reason && NULL != g_alloc)
+		COMCALL0(g_alloc, Release);
+	return TRUE;
+}
+
