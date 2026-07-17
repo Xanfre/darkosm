@@ -45,6 +45,18 @@ DECLARE_SCRIPT_SERVICE(Version, 0x228)
 	/* checks if path is absolute, if so returns it as-is, otherwise behaves the
 	 * same as FMizeRelativePath */
 	STDMETHOD_(void, FMizePath)(const char *path, String REF result) PURE;
+
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+	/*
+	** Mod services
+	*/
+
+	/* get either all mod paths in order or a specific mod path, returns empty
+	 * string and S_FALSE if specified index is not available */
+	STDMETHOD(GetModPath)(THIS_ String REF result, int which DEF_ARG(-1)) PURE;
 };
 
 /* Populated Implementors */

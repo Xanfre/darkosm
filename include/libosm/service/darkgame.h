@@ -43,6 +43,16 @@ DECLARE_SCRIPT_SERVICE(DarkGame, 0x1b4)
 	STDMETHOD_(BOOL, RespawnPlayer)(THIS) PURE;
 	/* only does something in T2 multiplayer builds */
 	STDMETHOD(FadeIn)(THIS_ float time) PURE;
+
+	/*
+	** new functions in v1.28:
+	*/
+
+	STDMETHOD(NoMove)(THIS_ BOOL move_allowed) PURE;
+	STDMETHOD(PlayerMode)(THIS_ int mode) PURE;
+	STDMETHOD_(int, GetPlayerMode)(THIS) PURE;
+	STDMETHOD_(void, Frob)(THIS_ BOOL in_inv DEF_ARG(FALSE)) PURE;
+	STDMETHOD(Save)(THIS_ const char *name, int which) PURE;
 #endif
 #endif
 };

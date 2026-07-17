@@ -135,6 +135,13 @@ DECLARE_SCRIPT_SERVICE(ShockGame, 0x108)
 	STDMETHOD_(BOOL, MouseCursor)(THIS) PURE;
 	STDMETHOD_(BOOL, ConfigIsDefined)(THIS_ const char *name) PURE;
 	STDMETHOD_(BOOL, ConfigGetInt)(THIS_ const char *name, int REF value) PURE;
+
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+	STDMETHOD_(int, GetPlayerMode)(THIS) PURE;
+	STDMETHOD(Save)(THIS_ const char *name, int which) PURE;
 };
 
 /* Populated Implementors */

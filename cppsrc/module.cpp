@@ -4,7 +4,7 @@
 #include "module.hpp"
 #include "script.hpp"
 
-#ifdef __GNUC__
+#if defined(_WIN32) && defined(__GNUC__)
 extern "C" { const void *__dyn_tls_init_callback = NULL; }
 #endif
 

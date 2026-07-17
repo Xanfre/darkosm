@@ -3,6 +3,9 @@
 
 #include "service.h"
 
+/* Helper Macros */
+#define LinkKindFromLink(_l) ((_l)&0xFFFF)
+
 /* LinkTools Service */
 #undef INTERFACE
 #define INTERFACE ILinkToolsService

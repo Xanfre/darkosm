@@ -3,6 +3,19 @@
 
 #include "service.h"
 
+/* Object Query Interface */
+DEFINE_GUID(IID_IObjectQuery, 0x8c00008c, 0x7b0c, 0x125b, 0x83, 0x48, 0x00, 0xaa, 0x00, 0xa8, 0x2b, 0x51);
+
+#undef INTERFACE
+#define INTERFACE IObjectQuery
+DECLARE_INTERFACE_(IObjectQuery, IUnknown)
+{
+	IUNKNOWN_FUNCS()
+	STDMETHOD_(BOOL, Done)(THIS) PURE;
+	STDMETHOD_(int, Object)(THIS) PURE;
+	STDMETHOD(Next)(THIS) PURE;
+};
+
 /* Object Service */
 #undef INTERFACE
 #define INTERFACE IObjectService
@@ -82,6 +95,31 @@ DECLARE_SCRIPT_SERVICE(Object, 0xdf)
 
 	/* get the archetype of an object */
 	STDMETHOD_(int *, Archetype)(THIS_ int REF ret, int scr_obj) PURE;
+
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+#ifdef THIEF1
+	STDMETHOD_(BOOL *, IsPositionValid)(THIS_ BOOL REF ret, int obj) PURE;
+	STDMETHOD_(int, FindClosestObjectNamed)(THIS_ int objId, const char* name)
+		PURE;
+#endif
+	/* set the archetype of an object */
+	STDMETHOD(SetArchetype)(THIS_ int obj, int arch) PURE;
+	/* get descendents of an archetype spatially related to another object */
+	STDMETHOD_(IObjectQuery **, FindDescendentsSpatial)(THIS_
+		IObjectQuery * REF ret, int obj, int arch, float radius,
+		int number DEF_ARG(1), BOOL closest DEF_ARG(TRUE),
+		BOOL inside DEF_ARG(TRUE), BOOL cylindrical DEF_ARG(FALSE)) PURE;
+	STDMETHOD_(int, FindScriptDonor)(THIS_ int objID, String name) PURE;
+	/* query objects to iterable sets, similar to what can be done with links */
+	STDMETHOD_(BOOL *, AnyExist)(THIS_ BOOL REF ret, int obj,
+		eTraitQueryType type DEF_ARG(kTraitQueryDescendents)) PURE;
+	STDMETHOD_(IObjectQuery **, GetAll)(THIS_ IObjectQuery * REF ret, int obj,
+		eTraitQueryType type DEF_ARG(kTraitQueryDescendents)) PURE;
+	STDMETHOD_(int *, GetOne)(THIS_ int REF ret, int obj,
+		eTraitQueryType type DEF_ARG(kTraitQueryDescendents)) PURE;
 #endif
 };
 

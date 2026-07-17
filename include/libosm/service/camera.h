@@ -39,6 +39,13 @@ DECLARE_SCRIPT_SERVICE(Camera, 0x140)
 	 * WorldToCamera(GetPosition()) would be the same as vector(0,0,0) */
 	STDMETHOD_(sVector *, WorldToCamera)(THIS_ sVector REF ret,
 		const sVector REF world_pos) PURE;
+
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+	/* prevent moving the facing direction of the camera */
+	STDMETHOD(LockMovement)(THIS_ BOOL move_allowed) PURE;
 #endif
 };
 

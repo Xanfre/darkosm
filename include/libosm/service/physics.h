@@ -44,6 +44,15 @@ DECLARE_SCRIPT_SERVICE(Physics, 0x141)
 	 * if none */
 	STDMETHOD_(void, GetClimbingObject)(THIS_ const int REF climber,
 		int REF climbobj) PURE;
+
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+#if defined(SHOCK) || defined(THIEF1)
+	STDMETHOD(ControlVelocity)(THIS_ int obj, const sVector REF vel) PURE;
+	STDMETHOD(StopControlVelocity)(THIS_ int obj) PURE;
+#endif
 #endif
 };
 

@@ -47,7 +47,8 @@ DECLARE_SCRIPT_SERVICE(Link, 0xee)
 	STDMETHOD(BroadcastOnAllLinks)(THIS_ const int REF SelfObj,
 		const char *Message, long recipients) PURE;
 	STDMETHOD(BroadcastOnAllLinksData)(THIS_ const int REF SelfObj,
-		const char *Message, long recipients, const MultiParm REF intdata) PURE;
+		const char *Message, long recipients, const MultiParm REF linkdata)
+		PURE;
 	STDMETHOD(CreateMany)(THIS_ long kind, const String REF FromSet,
 		const String REF ToSet) PURE;
 	STDMETHOD(DestroyMany)(THIS_ long kind, const String REF FromSet,
@@ -56,6 +57,17 @@ DECLARE_SCRIPT_SERVICE(Link, 0xee)
 		long kind DEF_ARG(0), int from DEF_ARG(0), int to DEF_ARG(0)) PURE;
 	STDMETHOD_(ILinkQuery **, GetAllInheritedSingle)(THIS_ ILinkQuery * REF ret,
 		long kind DEF_ARG(0), int from DEF_ARG(0), int to DEF_ARG(0)) PURE;
+
+#ifdef NEWDARK
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+	/* broadcast along links from many sources */
+	STDMETHOD(BroadcastOnAllLinksMany)(const String REF FromSet,
+		const char *Message, long recipients,
+		const MultiParm REF linkdata DEF_ARG(0)) PURE;
+#endif
 };
 
 /* Populated Implementors */

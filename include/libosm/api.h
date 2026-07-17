@@ -44,6 +44,7 @@ typedef int (*fScrPrintFunc)(const char *, ...);
 typedef interface IScript * (*fScrFactoryFunc)(const char *, int);
 typedef void (*fScrMsgCallback)(const sScrMsg *, const sMultiParm *, void *);
 typedef int (*fPersistIOFunc)(void *, void *, size_t);
+typedef BOOL (*tScrParCallback)(const char *, const sMultiParm *);
 
 /* Enumerations */
 typedef enum eAIAction
@@ -94,6 +95,7 @@ typedef enum eBodyAction
 	kBA_MotionEnd,
 	kBA_MotionFlagReached
 } eBodyAction;
+typedef int eContainType;
 typedef enum eDarkWeaponType
 {
 	kDWT_Sword,
@@ -315,6 +317,71 @@ typedef enum eTweqType
 	kTT_All,
 	kTT_Null
 } eTweqType;
+typedef enum eFaceVisage
+{
+   kFV_Neutral,
+   kFV_Smile,
+   kFV_Wince,
+   kFV_Surprise,
+   kFV_eStunned,
+   kFV_Count
+} eFaceVisage;
+typedef enum eWhichVarFile
+{
+   kWVF_MissionVar,
+   kWVF_GameSysVar,
+   kWVF_CampaignVar,
+   kWVF_NumVarFiles
+} eWhichVarFile;
+typedef unsigned long ePropertyListenMsg;
+enum ePropertyListenMsg_
+{
+   kListenPropModify = 1 << 0,
+   kListenPropSet = 1 << 1,
+   kListenPropUnset = 1 << 2,
+   kListenPropLoad = 1 << 3,
+   kListenPropRebuildConcrete = 1 << 4,
+   kListenPropRebuildConcreteRelevant = 1 << 5,
+   kListenPropRequestFromHost = 1 << 6
+};
+typedef unsigned long eRelationListenMsg;
+enum eRelationListenMsg_
+{
+   kListenLinkModify = 0x0001,
+   kListenLinkBirth = 0x0002,
+   kListenLinkDeath = 0x0004,
+   kListenLinkPostMortem= 0x0008
+};
+typedef enum eTraitQueryType
+{
+   kTraitQueryArchetype,
+   kTraitQueryDonors,
+   kTraitQueryDescendents,
+   kTraitQueryTransitive = (int)0x80000000,
+   kTraitQueryAllArchetypes = kTraitQueryArchetype|kTraitQueryTransitive,
+   kTraitQueryAllDonors = kTraitQueryDonors|kTraitQueryTransitive,
+   kTraitQueryAllDescendents = kTraitQueryDescendents|kTraitQueryTransitive
+} eTraitQueryType;
+
+/* Constants */
+#define DEFAULT_MARGIN -1
+#define ECONTAIN_NULL 0x7fffffff
+#define kFacePriorityMin 1
+#define kFacePriorityMax 10
+#define kFaceDurationInfinite 0x7fffffff
+#define kMsgAlignDefault 0x00
+#define kMsgAlignLeft 0x01
+#define kMsgAlignCenter 0x02
+#define kMsgAlignRight 0x03
+#define kMsgAlignTop 0x04
+#define kMsgAlignMid 0x08
+#define kMsgAlignBot 0x0C
+#define kMsgTextAlignLeft 0x10
+#define kMsgTextAlignCenter 0x20
+#define kMsgTextAlignRight 0x30
+#define kMsgHAlignMask kMsgAlignRight
+#define kMsgVAlignMask kMsgAlignBot
+#define kMsgTextAlignMask kMsgTextAlignRight
 
 /* Types */
 typedef struct sDatapath
@@ -732,7 +799,7 @@ DECLARE_INTERFACE_(IScriptMan, IUnknown)
 	STDMETHOD_(const sScrClassDesc *, GetNextClass)(THIS_ unsigned int *) PURE;
 	STDMETHOD_(void, EndClassIter)(THIS_ unsigned int *) PURE;
 	STDMETHOD_(const sScrClassDesc *, GetClass)(THIS_ const char *) PURE;
-	STDMETHOD (SetObjScripts)(THIS_ int, const char **, unsigned n) PURE;
+	STDMETHOD (SetObjScripts)(THIS_ int, const char **, unsigned) PURE;
 	STDMETHOD (ForgetObj)(THIS_ int) PURE;
 	STDMETHOD (ForgetAllObjs)(THIS) PURE;
 	STDMETHOD_(BOOL, WantsMessage)(THIS_ int, const char *) PURE;
@@ -770,6 +837,39 @@ DECLARE_INTERFACE_(IScriptMan, IUnknown)
 	STDMETHOD_(void, EndTraceIter)(THIS_ unsigned int *) PURE;
 	STDMETHOD (SaveLoad)(THIS_ fPersistIOFunc, void *, BOOL) PURE;
 	STDMETHOD_(void, PostLoad)(THIS) PURE;
+
+#ifdef NEWDARK
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+	STDMETHOD_(int, GetQueuedMessageCount)(THIS) PURE;
+	STDMETHOD_(sScrMsg*, GetQueuedMessageInfo)(THIS_ int) PURE;
+	STDMETHOD_(void, DeleteQueuedMessage)(THIS_ int) PURE;
+	STDMETHOD_(int, GetTimedMessageCount)(THIS) PURE;
+	STDMETHOD_(sScrMsg*, GetTimedMessageInfo)(THIS_ int, unsigned long *,
+		unsigned long *, unsigned int *) PURE;
+	STDMETHOD_(sScrDatumTag*, GetFirstScriptData)(THIS_ unsigned int *,
+		sMultiParm **) PURE;
+	STDMETHOD_(sScrDatumTag*, GetNextScriptData)(THIS_ unsigned int *,
+		sMultiParm **) PURE;
+	STDMETHOD_(void, EndScriptDataIter)(THIS_ unsigned int *) PURE;
+	STDMETHOD_(const char*, GetFirstScriptObject)(THIS_ unsigned int *, int *)
+		PURE;
+	STDMETHOD_(const char*, GetNextScriptObject)(THIS_ unsigned int *, int *)
+		PURE;
+	STDMETHOD_(void, EndScriptObjectIter)(THIS_ unsigned int *) PURE;
+
+	/* get script module information */
+	STDMETHOD_(int, GetModuleCount)(THIS) PURE;
+	STDMETHOD_(const char *, GetModule)(THIS_ int) PURE;
+
+	/* get script parameters from object */
+	STDMETHOD(GetAllScriptParams)(THIS_ int, tScrParCallback) PURE;
+	STDMETHOD_(BOOL, HasScriptParam)(THIS_ int, const char *) PURE;
+	STDMETHOD_(MultiParm *, GetScriptParam)(THIS_ MultiParm REF ret, int,
+		const char *) PURE;
+#endif
 };
 #undef INTERFACE
 #define INTERFACE IScriptModule

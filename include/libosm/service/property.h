@@ -36,6 +36,19 @@ DECLARE_SCRIPT_SERVICE(Property, 0xda)
 	/* query if int has a property set locally, ignoring inheritance from
 	 * archetypes and metaproperties */
 	STDMETHOD_(BOOL, PossessedSimple)(THIS_ int obj, const char* prop) PURE;
+
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+	/* indexed versions of Get(), Set(), and SetLocal() that will get the n-th
+	 * field with the provided name */
+	STDMETHOD_(MultiParm *, GetIndexed)(THIS_ MultiParm REF ret, int obj,
+		const char * prop, const char * field, unsigned char index) PURE;
+	STDMETHOD(SetIndexed)(THIS_ int obj, const char * prop, const char * field,
+		unsigned char index, const MultiParm REF) PURE;
+	STDMETHOD(SetLocalIndexed)(THIS_ int obj, const char * prop,
+		const char * field, unsigned char index, const MultiParm REF) PURE;
 #endif
 };
 

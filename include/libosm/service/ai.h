@@ -46,6 +46,14 @@ DECLARE_SCRIPT_SERVICE(AI, 0xe5)
 	STDMETHOD_(BOOL, Freeze)(THIS_ int who, float sec) PURE;
 	STDMETHOD_(BOOL, IsFrozen)(THIS_ int who) PURE;
 	STDMETHOD_(BOOL, UnFreeze)(THIS_ int who) PURE;
+
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+	STDMETHOD_(BOOL, SetFaceVisage)(THIS_ int who, eFaceVisage visage,
+		unsigned int priority DEF_ARG(kFacePriorityMin),
+		int duration DEF_ARG(kFaceDurationInfinite)) PURE;
 #endif
 };
 

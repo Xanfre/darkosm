@@ -19,6 +19,19 @@ DECLARE_SCRIPT_SERVICE(DarkUI, 0x19f)
 		PURE;
 	STDMETHOD_(String *, DescribeKeyBinding)(THIS_ String REF ret,
 		const String REF cmd) PURE;
+
+#ifdef NEWDARK
+	/*
+	** new functions in v1.28:
+	*/
+
+	/* TextMessage with more options */
+	STDMETHOD(TextMessageFormatted)(THIS_ const char* message, int color,
+		int timeout, const char* font DEF_ARG(NULL),
+		int xmargin DEF_ARG(DEFAULT_MARGIN),
+		int ymargin DEF_ARG(DEFAULT_MARGIN),
+		int align DEF_ARG(kMsgAlignDefault)) PURE;
+#endif
 }; 
 
 /* Populated Implementors */

@@ -60,6 +60,15 @@ DECLARE_SCRIPT_SERVICE(Quest, 0x152)
 	STDMETHOD_(BOOL, BinExists)(THIS_ const char* pName) PURE;
 	/* Delete quest bin data chunk */
 	STDMETHOD_(BOOL, BinDelete)(THIS_ const char *pName) PURE;
+
+	/*
+	** new functions in T2 v1.28 / SS2 v2.49:
+	*/
+
+	/* Get first/next quest variable */
+	STDMETHOD_(BOOL, GetFirst)(THIS_ eQuestDataType type, String REF name,
+		int REF val) PURE;
+	STDMETHOD_(BOOL, GetNext)(THIS_ String REF name, int REF val) PURE;
 #endif
 };
 
