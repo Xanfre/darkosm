@@ -17,7 +17,7 @@ DECLARE_SCRIPT_SERVICE(ShockGame, 0x108)
 	STDMETHOD(AttachCamera)(THIS_ const String REF s) PURE;
 	STDMETHOD(CutSceneModeOn)(THIS_ const String REF sceneName) PURE;
 	STDMETHOD(CutSceneModeOff)(THIS) PURE;
-	STDMETHOD_(int, CreatePlayerPuppet)(THIS) PURE;
+	STDMETHOD_(int, CreatePlayerPuppetDefault)(THIS) PURE;
 	STDMETHOD_(int, CreatePlayerPuppet)(THIS_ const String REF modelName) PURE;
 	STDMETHOD(DestroyPlayerPuppet)(THIS) PURE;
 	STDMETHOD(Replicator)(THIS_ const int REF RepObj) PURE;
@@ -55,7 +55,7 @@ DECLARE_SCRIPT_SERVICE(ShockGame, 0x108)
 	STDMETHOD_(BOOL, OverlayOn)(THIS_ int which) PURE;
 	STDMETHOD_(int *,FindSpawnPoint)(THIS_ int REF ret, const int REF Obj,
 		unsigned int flags) PURE;
-	STDMETHOD_(int, CountEcoMatching)(THSI_ int val) PURE;
+	STDMETHOD_(int, CountEcoMatching)(THIS_ int val) PURE;
 	STDMETHOD_(int, GetStat)(THIS_ const int REF who, int which) PURE;
 	STDMETHOD_(int *, GetSelectedObj)(THIS_ int REF ret) PURE;
 	STDMETHOD_(BOOL, AddInvObj)(THIS_ const int REF obj) PURE;

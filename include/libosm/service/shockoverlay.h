@@ -46,7 +46,7 @@ DECLARE_SCRIPT_SERVICE(ShockOverlay, 0x22a)
 	STDMETHOD_(void, ToggleLookCursor)(THIS) PURE;
 	STDMETHOD_(BOOL, StartObjectDragDrop)(THIS_ const int REF obj) PURE;
 	STDMETHOD_(void, PlaySound)(THIS_ const char *schema_name) PURE;
-	STDMETHOD_(BOOL, WorldToScreen)(THIS_ const vector REF pos, int REF x,
+	STDMETHOD_(BOOL, WorldToScreen)(THIS_ const sVector REF pos, int REF x,
 		int REF y) PURE;
 	STDMETHOD_(BOOL, GetObjectScreenBounds)(THIS_ const int REF obj, int REF x1,
 		int REF y1, int REF x2, int REF y2) PURE;

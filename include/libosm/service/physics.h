@@ -42,7 +42,7 @@ DECLARE_SCRIPT_SERVICE(Physics, 0x141)
 	STDMETHOD_(BOOL, IsRope)(THIS_ const int REF obj) PURE;
 	/* get climbable int that 'climber' is currently attached to, OBJ_NULL
 	 * if none */
-	STDMETHOD_(void, GetClimbingObject)(THIS const int REF climber,
+	STDMETHOD_(void, GetClimbingObject)(THIS_ const int REF climber,
 		int REF climbobj) PURE;
 #endif
 };
