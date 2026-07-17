@@ -9,7 +9,7 @@
 #undef INTERFACE
 #define INTERFACE IScriptModule
 
-#ifdef __GNUC__
+#if defined(_WIN32) && defined(__GNUC__)
 const void *__dyn_tls_init_callback = NULL;
 #endif
 

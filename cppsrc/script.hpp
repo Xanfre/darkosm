@@ -1,5 +1,8 @@
 #include "apiex.hpp"
 
+#include <libosm/api.h>
+#include <libosm/service/debug.h>
+
 /* Contants */
 #define SCR_NUM 1
 
@@ -37,12 +40,15 @@ class cScript : public IScript
 {
 public:
 	cScript(const char *n, int o);
-	virtual ~cScript() { }
+	virtual ~cScript();
 	STDMETHOD(QueryInterface)(REFIID, void **);
 	STDMETHOD_(unsigned long, AddRef)();
 	STDMETHOD_(unsigned long, Release)();
 	STDMETHOD_(const char*, GetClassName)();
 	STDMETHOD(ReceiveMessage)(sScrMsg *, sMultiParm *, eScrTraceAction);
+
+protected:
+	DECLARE_CLASS_SERVICE(Debug)
 
 private:
 	unsigned int count;

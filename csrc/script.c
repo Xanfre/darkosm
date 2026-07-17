@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+#define INIT_SERVICE_GUIDS
+
 #include <libosm/api.h>
 #include <libosm/service/debug.h>
 #include <libosm/service/implement.h>

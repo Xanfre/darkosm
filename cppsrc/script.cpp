@@ -1,10 +1,12 @@
 #include <cstdio>
 
+#define INIT_SERVICE_GUIDS
+
 #include "apiex.hpp"
 #include "script.hpp"
 
+#include <libosm/api.h>
 #include <libosm/service/debug.h>
-#include <libosm/service/implement.h>
 
 extern IScriptMan *g_man;
 extern fScrPrintFunc g_print;
@@ -12,9 +14,13 @@ extern IMalloc *g_alloc;
 
 extern sScrClassDesc g_classes[SCR_NUM];
 
-DEF_SERVICES()
+cScript::cScript(const char *n, int o) : INIT_CLASS_SERVICE(g_man, Debug),
+	count(0), name(n), obj(o) { }
 
-cScript::cScript(const char *n, int o) : count(0), name(n), obj(o) { }
+cScript::~cScript()
+{
+	DEINIT_CLASS_SERVICE(Debug)
+}
 
 STDMETHODIMP cScript::QueryInterface(REFIID riid, void **ppv)
 {
@@ -73,13 +79,12 @@ long TestScript::OnFrobWorldEnd(sFrobMsg *msg, sMultiParm *)
 
 	sprintf(srcobj, "%d", msg->srcobj);
 	sprintf(frobber, "%d", msg->frobber);
-	Debug->MPrint("FrobWorldEnd on ", srcobj, " from ", frobber);
+	Debug.MPrint("FrobWorldEnd on ", srcobj, " from ", frobber);
 
 	return 0;
 }
 
 void InitScripts(const char *modname)
 {
-	INIT_SERVICES(g_man)
 	SCR_DESC_DEF(modname, TestScript, 0);
 }

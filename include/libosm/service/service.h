@@ -8,6 +8,7 @@
 	IUNKNOWN_FUNCS() \
 	STDMETHOD_(void, Init)() PURE; \
 	STDMETHOD_(void, End)() PURE;
+#ifdef INIT_SERVICE_GUIDS
 #define DECLARE_SCRIPT_SERVICE_(_n, _i) \
 	GUID IID_I##_n##Service = { \
 		((((unsigned long)(_i) & 0xff) << 24) \
@@ -16,12 +17,22 @@
 		0x7a80+(_i), 0x11cf+(_i), \
 		{ 0x83, 0x48, 0x00, 0xaa, 0x00, 0xa8, 0x2b, 0x51 } \
 	};
+#else
+#define DECLARE_SCRIPT_SERVICE_(_n, _i) \
+	extern GUID IID_I##_n##Service;
+#endif
 #define DECLARE_SCRIPT_SERVICE(_n, _i) \
 	DECLARE_SCRIPT_SERVICE_(_n, _i) \
 	DECLARE_INTERFACE_(I##_n##Service, IUnknown)
 #ifdef __cplusplus
 #define IMPLEMENT_SERVICE(_m,_s) \
 	_s = (interface I##_s##Service *) _m->GetService(&IID_I##_s##Service);
+#define DECLARE_CLASS_SERVICE(_s) \
+	I##_s##Service & _s;
+#define INIT_CLASS_SERVICE(_m, _s) \
+	_s(*((interface I##_s##Service *) _m->GetService(&IID_I##_s##Service)))
+#define DEINIT_CLASS_SERVICE(_s) \
+	((IUnknown *)(&_s))->Release();
 #else
 #define IMPLEMENT_SERVICE(_m,_s) \
 	_s = (interface I##_s##Service *) _m->lpVtbl->GetService(_m, &IID_I##_s##Service);
