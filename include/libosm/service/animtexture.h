@@ -11,6 +11,15 @@ DECLARE_SCRIPT_SERVICE(AnimTexture, 0x16a)
 	SERVICE_FUNCS()
 	STDMETHOD(ChangeTexture)(THIS_ int refobj, const char *fam1,
 		const char *tx1, const char *fam2, const char *tx2) PURE;
+
+	/*
+	** new functions in T2 v1.29 / SS2 v2.50:
+	*/
+
+	STDMETHOD(ChangeAllTextures)(THIS_ const char *fam1, const char *tx1,
+		const char *fam2, const char *tx2) PURE;
+	STDMETHOD(ChangeSingleTexture)(THIS_ int cellid, int polyid,
+		const char *fam, const char *tx) PURE;
 };
 
 /* Populated Implementors */
